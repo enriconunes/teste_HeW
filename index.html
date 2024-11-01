@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produto H&W Publishing</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Estilos para o carrossel principal */
+        .carousel-inner {
+        max-height: 500px;
+        }
+
+        .carousel-item img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        }
+
+        /* Estilos para as miniaturas */
+        .thumbnail-carousel {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        }
+
+        .thumbnail {
+        width: 100px;
+        height: 60px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border-color 0.3s;
+        object-fit: cover;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+        border-color: #007bff;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.5; /* Opacidade do fundo do modal */
+        }
+
+        /* Estilo personalizado para o modal */
+        .modal-header {
+            background-color: #7e57c2;
+            color: #fff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .cta-text {
+            color: #7e57c2;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #7e57c2;
+            border-color: #7e57c2;
+            font-weight: bold;
+            padding: 10px 20px;
+        }
+        .btn-primary:hover {
+            background-color: #6849a6;
+            border-color: #6849a6;
+        }
+        .form-control:focus {
+            border-color: #7e57c2;
+            box-shadow: 0px 0px 5px rgba(126, 87, 194, 0.5);
+        }
+        .welcome-message {
+            color: #7e57c2;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+  </style>
+</head>
+<body>
+
+    <!-- Modal Leads -->
+    <div class="modal fade show" id="leadModal" tabindex="-1" role="dialog" aria-labelledby="leadModalTitle" aria-hidden="true" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="leadModalTitle">Seja bem-vindo!</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="cta-text">Preencha o formulário abaixo para ter acesso aos nossos conteúdos exclusivos!</p>
+                    <form id="leadForm">
+                        <div class="form-group mb-2">
+                            <label for="name">Nome</label>
+                            <input type="text" class="form-control" id="name" placeholder="Digite seu nome" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">E-mail</label>
+                            <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefone</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="(99) 99999-9999" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Header com Transição -->
+    <nav class="sticky-top bg-white navbar navbar-light">
+        <div class="container">
+            <a editable="inline" class="navbar-brand" href="">
+                <img src="assets/images/logo.png" width="48" height="48" class="align-middle me-1 img-fluid" alt="My Website">
+                H&W Publishing</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- START OFFCANVAS -->
+            <!-- To customize and view the offcanvas, utilize the "show" class, but make sure to remove it once you are finished. -->
+            <div class="offcanvas offcanvas-end p-2 bg-light" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <div class="lc-block">
+                        <div editable="rich">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="lc-block mb-4">
+
+                                <div lc-helper="shortcode" class="live-shortcode me-auto"> <!--  lc_nav_menu -->
+                                    <ul id="menu-menu-1" class="navbar-nav">
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="https://library.livecanvas.com/starters" class="nav-link ">Primeiro índice</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="https://library.livecanvas.com/starters" class="nav-link ">Seguindo índice</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="https://library.livecanvas.com/starters" class="nav-link ">Terceiro índice</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-32739"><a href="https://library.livecanvas.com/starters" class="nav-link ">Quarto índice</a></li>
+                                    </ul> <!-- /lc_nav_menu -->
+                                </div>
+
+
+                            </div>
+                            <div class="lc-block">
+                                <a class="btn" style="background-color: #7e57c2; color: white; padding: 12px 24px; font-size: 1.2em; border-radius: 8px; border: none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);" href="#" role="button">Experimente Agora</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="overflow-hidden pb-5">
+        <div class="container-fluid col-xxl-8">
+            <div class="row flex-lg-nowrap align-items-center g-5">
+                <div class="order-lg-1 w-100">
+                    <img style="clip-path: polygon(25% 0%, 100% 0%, 100% 99%, 0% 100%);" src="assets/images/hero.jpeg" class="d-block mx-lg-auto img-fluid" alt="Photo by Milad Fakurian" loading="lazy" sizes="(max-width: 1080px) 100vw, 1080px" width="2160" height="768">
+                </div>
+                <div class="col-lg-6 col-xl-5 text-center text-lg-start pt-lg-5 mt-xl-4">
+                    <!-- Mensagem inicial -->
+                <div class="lc-block mb-4">
+                    <div editable="rich">
+                        <h1 class="fw-bold display-5" id="mainMessage">Alcance seu Potencial Máximo com Energia e Vitalidade!</h1>
+                    </div>
+                </div>
+
+                    <div class="lc-block mb-4">
+                        <div editable="rich">
+                            <p class="rfs-8">Descubra a força da nossa fórmula avançada de suplementação alimentar, projetada para apoiar sua saúde e maximizar sua performance. Com ingredientes naturais e poderosos, você estará mais perto do seu melhor todos os dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="lc-block mb-6">
+                        <a class="btn btn-primary px-4 me-md-2 btn-lg" style="background-color: #7e57c2; color: white; padding: 12px 24px; font-size: 1.2em; border-radius: 8px; border: none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);" href="#" role="button">Experimente Agora</a>
+                    </div>
+                </div>
+            </div><!-- /lc-block -->
+        </div>
+    </div>
+
+    <!-- Carousel -->
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="assets/images/produto-1.png" class="d-block w-100" alt="Produto 1">
+            </div>
+            <div class="carousel-item">
+                <img src="assets/images/produto-2.png" class="d-block w-100" alt="Produto 2">
+            </div>
+            <div class="carousel-item">
+                <img src="assets/images/produto-3.png" class="d-block w-100" alt="Produto 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Carousel Images -->
+    <div class="thumbnail-carousel pb-5">
+        <img src="assets/images/produto-1.png" class="thumbnail" data-bs-target="#carouselExample" data-bs-slide-to="0" alt="Miniatura 1">
+        <img src="assets/images/produto-2.png" class="thumbnail" data-bs-target="#carouselExample" data-bs-slide-to="1" alt="Miniatura 2">
+        <img src="assets/images/produto-3.png" class="thumbnail" data-bs-target="#carouselExample" data-bs-slide-to="2" alt="Miniatura 3">
+    </div>
+
+    <!-- About Section -->
+    <div class="container">
+        <div class="row mb-4 align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="lc-block text-center">
+                    <img class="img-fluid" src="assets/images/suplemento-4.jpeg" width="400" height="400" loading="lazy">
+                </div>
+            </div>
+            <div class="col-lg-6 p-lg-6">
+                <div class="lc-block mb-5">
+                    <div editable="rich">
+                        <h2 class="display-6 fw-bold">Melhore sua Saúde</h2>
+                        <p class="lead"><br>Descubra como a suplementação alimentar pode transformar sua vida e contribuir para o seu bem-estar geral.</p>
+                    </div>
+                </div><!-- /lc-block -->
+                <div class="lc-block">
+                    <div class="d-inline-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#7e57c2" class="text-primary" viewBox="0 0 16 16" lc-helper="svg-icon">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3 align-self-center" editable="rich">
+                            <p>Fortalece o sistema imunológico.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lc-block">
+                    <div class="d-inline-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#7e57c2" class="text-primary" viewBox="0 0 16 16" lc-helper="svg-icon">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3 align-self-center" editable="rich">
+                            <p>Ajuda na recuperação muscular.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lc-block">
+                    <div class="d-inline-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#7e57c2" class="text-primary" viewBox="0 0 16 16" lc-helper="svg-icon">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3 align-self-center" editable="rich">
+                            <p>Melhora a energia e disposição.</p>
+                        </div>
+                    </div><!-- /lc-block -->
+                </div><!-- /col -->
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1">
+                <div class="lc-block text-center">
+                    <img class="img-fluid" src="assets/images/suplemento-2.jpeg" width="400" height="400" loading="lazy">
+                </div><!-- /lc-block -->
+            </div><!-- /col -->
+            <div class="col-lg-6 p-lg-6">
+                <div class="lc-block mb-5">
+                    <div editable="rich">
+                        <h2 class="display-6 fw-bold">Aprimore seu Bem-Estar</h2>
+                        <p class="lead"><br>Explore como nossos produtos podem contribuir para uma vida mais saudável e equilibrada.</p>
+                    </div>
+                </div><!-- /lc-block -->
+                <div class="lc-block">
+                    <div class="d-inline-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#7e57c2" class="text-primary" viewBox="0 0 16 16" lc-helper="svg-icon">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3 align-self-center" editable="rich">
+                            <p>Promove um sono melhor e mais reparador.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lc-block">
+                    <div class="d-inline-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#7e57c2" class="text-primary" viewBox="0 0 16 16" lc-helper="svg-icon">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3 align-self-center" editable="rich">
+                            <p>Aumenta a sensação de bem-estar e felicidade.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lc-block">
+                    <div class="d-inline-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#7e57c2" class="text-primary" viewBox="0 0 16 16" lc-helper="svg-icon">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-3 align-self-center" editable="rich">
+                            <p>Auxilia na manutenção de um peso saudável.</p>
+                        </div>
+                    </div><!-- /lc-block -->
+                </div><!-- /col -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="container py-5">
+        <div class="row mb-4">
+    <div class="lc-block text-center">
+        <div editable="rich">
+            <h2 class="fw-bold display-2">Explore Nossos Suplementos</h2>
+        </div>
+    </div>
+    <div class="lc-block text-center">
+        <div editable="rich">
+            <p class="lead">
+                Descubra nossa seleção de suplementos de alta qualidade, desenvolvidos para apoiar seu bem-estar e saúde.<br>
+                Cada imagem representa um produto cuidadosamente elaborado para proporcionar os melhores benefícios nutricionais.<br>
+                Confira as opções que temos para você!
+            </p>
+        </div>
+    </div>
+</div>
+
+        <div class="row">
+            <div class="col-md-6 col-lg-4 g-4">
+                <div class="lc-block">
+                    <img class="img-fluid" src="assets/images/suplemento.jpeg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="768" alt="Photo by Bekky Bekks" loading="lazy">
+                </div>
+                <!-- /lc-block -->
+            </div>
+            <div class="col-md-6 col-lg-4 g-4">
+                <div class="lc-block">
+                    <img class="img-fluid" src="assets/images/suplemento.jpeg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="768" alt="Photo by Jason Leung" loading="lazy">
+                </div>
+                <!-- /lc-block -->
+            </div>
+            <div class="col-md-6 col-lg-4 g-4">
+                <div class="lc-block">
+                    <img class="img-fluid" src="assets/images/suplemento.jpeg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="768" alt="Photo by JOSE LARRAZOLO" loading="lazy">
+                </div>
+                <!-- /lc-block -->
+            </div>
+            <div class="col-md-6 col-lg-4 g-4">
+                <div class="lc-block">
+                    <img class="img-fluid" src="assets/images/suplemento.jpeg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="768" alt="Photo by Alexey Lin" loading="lazy">
+                </div>
+                <!-- /lc-block -->
+            </div>
+            <div class="col-md-6 col-lg-4 g-4">
+                <div class="lc-block">
+                    <img class="img-fluid" src="assets/images/suplemento.jpeg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="768" alt="Photo by Markus Spiske" loading="lazy">
+                </div>
+                <!-- /lc-block -->
+            </div>
+            <div class="col-md-6 col-lg-4 g-4">
+                <div class="lc-block">
+                    <img class="img-fluid" src="assets/images/suplemento.jpeg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="768" alt="Photo by Lubomirkin" loading="lazy">
+                </div>
+                <!-- /lc-block -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimony -->
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-md-12 text-center">
+                <div class="lc-block mb-4">
+                    <h2 editable="inline" class="rfs-25 fw-bolder">Depoimentos</h2>
+                    <p editable="inline">
+                        Descubra o que nossos clientes estão dizendo sobre o produto da H&W Publishing. 
+                        Nossos usuários experimentaram melhorias significativas em sua saúde e bem-estar. Veja como 
+                        o nosso suplemento tem feito a diferença na vida deles!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body py-4">
+                        <div class="d-flex">
+                            <img style="width:48px;height:48px" src="assets/images/person.jpg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="1080">
+                            <div class="ps-2">
+                                <h4 editable="inline" class="rfs-7 ms-2">João Victor</h4>
+                            </div>
+                        </div>
+                        <div class="lc-block mt-4 text-muted">
+                            <div editable="rich">
+                                <p>Estou impressionado com a qualidade dos suplementos da H&W Publishing. Desde que comecei a usar, notei uma melhora significativa na minha energia e desempenho durante os treinos.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rating mt-3 text-success">
+                            <div class="lc-block"> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body py-4">
+                        <div class="d-flex">
+                            <img style="width:48px;height:48px" src="assets/images/person.jpg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="1080">                       <div class="ps-2">
+                                <h4 editable="inline" class="rfs-7 ms-2">Gabriel&nbsp;<p></p>
+                                    <p></p>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="lc-block mt-4 text-muted">
+                            <div editable="rich">
+                                <p>Os suplementos da H&W Publishing fazem parte da minha rotina diária agora. A pureza e eficácia dos ingredientes me dão confiança de que estou investindo na minha saúde de forma segura e eficaz..
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rating mt-3 text-success">
+                            <div class="lc-block"> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body py-4">
+                        <div class="d-flex">
+                            <img style="width:48px;height:48px" src="assets/images/person.jpg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="1080">                        <div class="ps-2">
+                                <h4 editable="inline" class="rfs-7 ms-2">Maria&nbsp;<p></p>
+                                    <p></p>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="lc-block mt-4 text-muted">
+                            <div editable="rich">
+                                <p>Os produtos da H&W Publishing realmente fizeram a diferença na minha recuperação pós-treino. Sinto menos fadiga e mais disposição para o dia a dia. É um investimento na minha saúde que vale a pena!</p>
+                            </div>
+                        </div>
+                        <div class="rating mt-3 text-success">
+                            <div class="lc-block"> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body py-4">
+                        <div class="d-flex">
+                            <img style="width:48px;height:48px" src="assets/images/person.jpg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="1080">                         <div class="ps-2">
+                                <h4 editable="inline" class="rfs-7 ms-2">Fernanda&nbsp;<p></p>
+                                    <p></p>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="lc-block mt-4 text-muted">
+                            <div editable="rich">
+                                <p>Adoro a transparência da H&W Publishing com os ingredientes. Finalmente encontrei uma marca de suplementos em que posso confiar. Me sinto bem sabendo exatamente o que estou consumindo.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rating mt-3 text-success">
+                            <div class="lc-block"> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body py-4">
+                        <div class="d-flex">
+                            <img style="width:48px;height:48px" src="assets/images/person.jpg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="1080">
+                            <div class="ps-2">
+                                <h4 editable="inline" class="rfs-7 ms-2">
+                                    Lucas Martins
+
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="lc-block mt-4 text-muted">
+                            <div editable="rich">
+                                <p>Comecei a usar os suplementos da H&W Publishing há alguns meses e já vejo a diferença. Minha resistência melhorou muito, e meu foco nos treinos aumentou. Produto de excelente qualidade!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rating mt-3 text-success">
+                            <div class="lc-block"> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-4 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body py-4">
+                        <div class="d-flex">
+                            <img style="width:48px;height:48px" src="assets/images/person.jpg" sizes="(max-width: 1080px) 100vw, 1080px" width="1080" height="1080">                        <div class="ps-2">
+                                <h4 editable="inline" class="rfs-7 ms-2">
+                                    Ana Clara
+
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="lc-block mt-4 text-muted">
+                            <div editable="rich">
+                                <p>Minha experiência com a H&W Publishing tem sido incrível! A qualidade dos suplementos é perceptível, e sinto que estou cuidando melhor do meu corpo. Recomendo para todos que buscam mais saúde.</p>
+                            </div>
+                        </div>
+                        <div class="rating mt-3 text-success">
+                            <div class="lc-block"> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg> <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" lc-helper="svg-icon">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown -->
+    <section id="cta" class="cta-section py-5 px-3 text-center" style="background: linear-gradient(135deg, #f3e8ff, #d1c4e9); color: #333;">
+        <h2 class="mb-4" style="font-weight: bold;">Aproveite Nossa Oferta Exclusiva!</h2>
+        <p class="lead mb-4" style="color: #555;">Essa é sua última chance de aproveitar descontos imperdíveis. Não deixe passar!</p>
+        <div id="countdown" class="countdown display-4 mb-4" style="color: #7e57c2;"></div>
+        <button class="btn" style="background-color: #7e57c2; color: white; padding: 12px 24px; font-size: 1.2em; border-radius: 8px; border: none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+            Aproveitar Agora
+        </button>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="lc-block mb-4">
+                        <img class="img-fluid" alt="logo" src="https://cdn.livecanvas.com/media/svg/undraw-sample/undraw_connected_world_wuay.svg" style="max-height:10vh">
+                    </div>
+                    <div class="lc-block small">
+                        <div editable="rich">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias vitae inventore neque cupiditate culpa ab, ullam harum obcaecati rem laboriosam eum dolore voluptas atque cumque corrupti minus blanditiis.</p>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                    <div class="lc-block py-2">
+                        <a class="text-decoration-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="1em" height="1em" lc-helper="svg-icon" fill="var(--bs-light)">
+                                <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+                            </svg>
+                        </a>
+                        <a class="text-decoration-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" lc-helper="svg-icon" fill="var(--bs-light)">
+                                <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </a>
+                        <a class="text-decoration-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" lc-helper="svg-icon" fill="var(--bs-light)">
+                                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
+                            </svg>
+                        </a>
+                        <a class="text-decoration-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em" lc-helper="svg-icon" fill="var(--bs-light)">
+                                <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path>
+                            </svg>
+                        </a>
+                        <a class="text-decoration-none" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" lc-helper="svg-icon" fill="var(--bs-light)">
+                                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="lc-block mb-4">
+                        <div editable="rich">
+                            <h4>Lorem, ipsum.</h4>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                    <div class="lc-block small">
+                        <div editable="rich">
+                            <p>Tutorial</p>
+                            <p>Resources
+                                <br>
+                            </p>
+                            <p>Docs</p>
+                            <p>Example</p>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="lc-block mb-4">
+                        <div editable="rich">
+                            <h4>Lorem, ipsum.</h4>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                    <div class="lc-block small">
+                        <div editable="rich">
+                            <p>Story</p>
+                            <p>Work with us</p>
+                            <p>Blog</p>
+                            <p>News</p>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                </div>
+            </div>
+        </div>
+        <div class="py-5 container">
+            <div class="row">
+                <div class="col-6 small">
+                    <div class="lc-block">
+                        <div editable="rich">
+                            <p>Copyright © H&W Publishing</p>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                </div>
+                <div class="col-6 text-end small">
+                    <div class="lc-block">
+                        <div editable="rich">
+                            <p>
+                                <a class="text-decoration-none" href="#">License Details</a> -
+                                <a class="text-decoration-none" href="#">Terms &amp; Conditions</a>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- /lc-block -->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Máscara para telefone
+            $('#phone').mask('(99) 99999-9999');
+
+            // Mostrar o modal ao carregar a página
+            $('#leadModal').modal('show');
+
+            // Manipulador de envio do formulário
+            $('#leadForm').on('submit', function(event) {
+                event.preventDefault(); // Evitar o envio padrão do formulário
+
+                const name = $('#name').val();
+                const email = $('#email').val();
+                const phone = $('#phone').val();
+
+                // Validação simples (pode ser expandida)
+                if (name && email && phone) {
+                    $('#leadModal').modal('hide'); // Ocultar o modal
+
+                    // Atualizar a mensagem na página
+                    $('#mainMessage').text(`Bem-vindo, ${name}! Alcance seu Potencial Máximo com Energia e Vitalidade!`);
+                }
+            });
+        });
+
+        function closeModal() {
+            $('#leadModal').modal('hide');
+        }
+    </script>
+</body>
+</html>
